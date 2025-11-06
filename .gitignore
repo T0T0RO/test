@@ -1,0 +1,141 @@
+# ============================================================
+#  UNIVERSAL FRONTEND .gitignore
+#  Works for Angular 18–20, React, Vue, Vite 7, TypeScript
+#  Includes optional legacy Angular & tooling patterns
+# ============================================================
+
+# ----------------------------------------
+# Logs
+# ----------------------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+eslintcache
+
+# ----------------------------------------
+# Node dependencies
+# ----------------------------------------
+node_modules/
+
+# ----------------------------------------
+# Build outputs
+# ----------------------------------------
+dist/
+dist-ssr/
+build/
+out/
+out-tsc/
+tmp/
+.tmp/
+.temp/
+.cache/
+.vite/
+vite.config.ts.timestamp-*
+.angular/
+.angular/cache/
+.angular-build/
+coverage/
+reports/
+bazel-out/
+.turbo/
+nx-cache/
+
+# Vue / Nuxt
+.nuxt/
+.output/
+.hmr/
+
+# React (Next.js, CRA, etc.)
+.next/
+.cache-loader/
+public/static/
+*.hot-update.*
+
+# Legacy Angular / Tooling
+.sass-cache/
+connect.lock
+typings/
+__screenshots__/
+testem.log
+
+# ----------------------------------------
+# Environment files
+# ----------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# ----------------------------------------
+# IDEs and editors
+# ----------------------------------------
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+.history/
+.settings/
+*.code-workspace
+*.iml
+
+# ----------------------------------------
+# TypeScript build info
+# ----------------------------------------
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+tsconfig.build.tsbuildinfo
+
+# ----------------------------------------
+# Test tools and reports
+# ----------------------------------------
+.cypress/
+.playwright/
+test-results/
+videos/
+screenshots/
+storybook-static/
+
+# ----------------------------------------
+# Miscellaneous
+# ----------------------------------------
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.rej
+*.tgz
+*.local
+*.lock
+/libpeerconnection.log
+
+# ----------------------------------------
+# System files
+# ----------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ----------------------------------------
+# Comments / References
+# ----------------------------------------
+# See: https://docs.github.com/get-started/getting-started-with-git/ignoring-files
+# Angular reference: https://angular.io/guide/setup-local#configure-git
+# Vite reference: https://vitejs.dev/guide/env-and-mode.html

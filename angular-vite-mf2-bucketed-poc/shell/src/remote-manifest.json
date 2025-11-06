@@ -1,0 +1,19 @@
+{
+  "remotes": [
+    {
+      "name": "app-react",
+      "type": "react",
+      "url": "http://localhost:5174/remoteEntry.js"
+    },
+    {
+      "name": "app-vue",
+      "type": "vue",
+      "url": "http://localhost:5175/remoteEntry.js"
+    },
+    {
+      "name": "app1",
+      "type": "angular",
+      "url": "http://localhost:5176/remoteEntry.js"
+    }
+  ]
+}

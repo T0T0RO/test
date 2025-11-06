@@ -1,0 +1,30 @@
+{
+  "name": "angular-vite-mf2-bucketed-poc",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "../simple_angular_app",
+    "../simple_react_app",
+    "../simple-vue_app"
+  ],
+  "scripts": {
+    "prepare-buckets": "node ./scripts/prepare-buckets.mjs",
+    "dev:shell": "cd apps/shell && vite",
+    "dev:app1": "cd apps/app1 && vite",
+    "dev:app2": "cd apps/app2 && vite",
+    "dev:react": "cd apps/react-widget && vite",
+    "dev:all": "concurrently \"npm:dev:shell\" \"npm:dev:app1\" \"npm:dev:app2\" \"npm:dev:react\"",
+    "build-all": "node ./scripts/prepare-buckets.mjs && npm run build:all:apps",
+    "build:all:apps": "cd apps/app1 && vite build --outDir ../../dist/apps/app1 && cd ../app2 && vite build --outDir ../../dist/apps/app2 && cd ../app3 && vite build --outDir ../../dist/apps/app3 && cd ../shell && vite build --outDir ../../dist/apps/shell"
+  },
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "1.22.2",
+    "@angular/compiler-cli": "20.3.7",
+    "@module-federation/vite": "1.8.1",
+    "@originjs/vite-plugin-federation": "^1.4.1",
+    "@types/node": "24.9.1",
+    "concurrently": "9.2.1",
+    "typescript": "5.9.3",
+    "vite": "7.1.12"
+  }
+}
