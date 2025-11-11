@@ -1,0 +1,33 @@
+{
+  "name": "angular-vite-mf2-bucketed-poc",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "../simple_angular_app",
+    "../simple_react_app",
+    "../simple_vue_app"
+  ],
+  "scripts": {
+    "gen:entries": "npx ts-node --esm scripts/generate-remote-entry.ts --fix",
+    "gen:manifest": "node ./scripts/generate-remote-manifest.mjs",
+    "predev:shell": "npm run gen:entries && npm run gen:manifest",
+    "dev:shell": "cd shell && vite"
+  },
+  "devDependencies": {
+    "ts-node": "10",
+    "@types/node": "24.9.1",
+    "concurrently": "9.2.1",
+    "typescript": "5.9.3",
+    "vite": "7.1.12"
+  },
+  "OLD_devDependencies": {
+    "@analogjs/vite-plugin-angular": "1.22.2",
+    "@angular/compiler-cli": "20.3.7",
+    "@module-federation/vite": "1.8.1",
+    "@originjs/vite-plugin-federation": "^1.4.1",
+    "@types/node": "24.9.1",
+    "concurrently": "9.2.1",
+    "typescript": "5.9.3",
+    "vite": "7.1.12"
+  }
+}

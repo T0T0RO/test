@@ -1,16 +1,15 @@
 {
+  // Root-level orchestrator tsconfig
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "types": [],
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@scripts/*": ["scripts/*"],
@@ -18,5 +17,7 @@
       "@app2/*": ["apps/app2/src/*"],
       "@app3/*": ["apps/app3/src/*"]
     }
-  }
+  },
+  "include": ["scripts/**/*"],
+  "exclude": ["node_modules", "dist", "apps", "shell"]
 }
