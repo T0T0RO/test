@@ -36,7 +36,9 @@ async function loadRemotesConfig() {
 
 function runCommand(cmd, args, cwd, label) {
   return new Promise((resolve, reject) => {
-    console.log(`[build-remotes] Building "${label}" via: ${cmd} ${args.join(" ")}`);
+    console.log(
+      `[build-remotes] Building "${label}" via: ${cmd} ${args.join(" ")}`
+    );
     console.log(`[build-remotes] cwd: ${cwd}`);
 
     const child = spawn(cmd, args, {
@@ -92,13 +94,18 @@ async function main() {
     }
 
     const cwd = resolve(integrationRoot, rootKey);
+
+    // IMPORTANT:
+    // - Angular remotes provide "npm run build:mf2" as buildCommand.
+    // - Other remotes provide "npm run build" (or similar).
+    // Integration-layer does NOT try to be clever with framework flags.
     const buildCommand =
-      typeof remote.buildCommand === "string"
+      typeof remote.buildCommand === "string" &&
+      remote.buildCommand.trim().length > 0
         ? remote.buildCommand.trim()
         : "npm run build";
 
-    // Parse "npm run xyz" → cmd + args
-    const [cmd, ...args] = buildCommand.split(" ");
+    const [cmd, ...args] = buildCommand.split(/\s+/);
 
     await runCommand(cmd, args, cwd, name);
   }
