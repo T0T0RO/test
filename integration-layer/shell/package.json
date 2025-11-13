@@ -2,12 +2,11 @@
   "name": "shell",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "gen:manifest": "ts-node scripts/generate-manifest.ts"
+    "dev": "vite"
   },
   "dependencies": {
-    "@angular/core": "18.2.0",
     "@angular/common": "18.2.0",
+    "@angular/core": "18.2.0",
     "@angular/router": "18.2.0"
   },
   "devDependencies": {

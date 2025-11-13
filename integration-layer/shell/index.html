@@ -1,13 +1,20 @@
+<!-- integration-layer/shell/index.html -->
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Shell</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <script type="importmap" src="/importmap.json"></script>
+    <meta charset="UTF-8" />
+    <title>MF2 Shell</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body>
-    <div id="shell-root"></div>
+  <body style="margin:0;padding:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background-color:#111;color: #ddd; -webkit-text-stroke-color: #ddd;">
+    <div style="padding:12px;border-bottom:1px solid #ddd;display:flex;gap:8px;align-items:center;">
+      <strong>MF2 Shell</strong>
+      <button id="btn-app-react">app-react</button>
+      <button id="btn-app1">app1</button>
+      <button id="btn-app2">app2</button>
+      <span id="status" style="margin-left:auto;color:#666;"></span>
+    </div>
+    <div id="mfe-host" style="padding:12px;"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

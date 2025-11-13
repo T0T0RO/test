@@ -2,43 +2,24 @@
   "remotes": [
     {
       "name": "app-react",
-      "root": "../simple_react_app/app-react",
       "framework": "react",
       "version": "X",
-      "bootstrap": "src/bootstrap.tsx",
-      "buildCommand": "npm run build"
+      "root": "../simple_react_app/app-react",
+      "bootstrap": "src/bootstrap.tsx"
     },
     {
       "name": "app1",
-      "root": "../simple_angular_app/app1",
       "framework": "angular",
       "version": "X",
-      "bootstrap": "src/bootstrap.ts",
-      "buildCommand": "npm run build"
+      "root": "../simple_angular_app/app1",
+      "bootstrap": "src/bootstrap.ts"
     },
     {
       "name": "app2",
-      "root": "../simple_angular_app/app2",
       "framework": "angular",
       "version": "X",
-      "bootstrap": "src/bootstrap.ts",
-      "buildCommand": "npm run build"
-    },
-    {
-      "name": "app-vue",
-      "root": "../simple_vue_app/app-vue",
-      "framework": "vue",
-      "version": "X",
-      "bootstrap": "src/bootstrap.ts",
-      "buildCommand": "npm run build"
-    },
-    {
-      "name": "app-vite-vanilla",
-      "root": "../simple_vite_app/app-vite-vanilla",
-      "framework": "vanilla",
-      "version": "X",
-      "bootstrap": "src/bootstrap.ts",
-      "buildCommand": "npm run build"
+      "root": "../simple_angular_app/app2",
+      "bootstrap": "src/bootstrap.ts"
     }
   ]
 }

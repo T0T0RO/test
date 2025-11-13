@@ -1,13 +1,38 @@
 // integration-layer/shell/src/runtime/remoteLoader.ts
-// Dynamic remote loader for MF2 shell.
-// Consumes generated remote-manifest.js and exposes mount/unmount helpers.
-
-import { remoteManifest } from "../remote-manifest";
+import * as manifestMod from "../remote-manifest";
 import type { RemoteManifestEntry } from "../remote-manifest";
 
 type RemoteManifest = Record<string, RemoteManifestEntry>;
 
-const manifest: RemoteManifest = remoteManifest as RemoteManifest;
+function toAlias(name: string) { return `/remotes/${name}/remoteEntry.js`; }
+
+function normalizeManifest(raw: any): RemoteManifest {
+  if (raw?.remoteManifest && typeof raw.remoteManifest === "object" && !Array.isArray(raw.remoteManifest)) {
+    return raw.remoteManifest as RemoteManifest;
+  }
+  if (raw && typeof raw === "object" && !Array.isArray(raw) && raw["app-react"]?.entry) {
+    return raw as RemoteManifest;
+  }
+  const legacy = raw?.default || raw;
+  if (legacy?.remotes && Array.isArray(legacy.remotes)) {
+    const map: RemoteManifest = {};
+    for (const r of legacy.remotes) {
+      const name = r?.name; if (!name) continue;
+      map[name] = {
+        entry: toAlias(name),
+        framework: r.framework || "unknown",
+        version: r.version || "X",
+        status: r.status || (r.entry ? "available" : "missing")
+      };
+    }
+    console.warn("[MF2] Adapted legacy manifest shape at runtime; please regenerate.");
+    return map;
+  }
+  console.error("[MF2] Unsupported manifest shape. Regenerate the manifest.");
+  return {};
+}
+
+const manifest: RemoteManifest = normalizeManifest(manifestMod);
 
 export type LoadedRemote = {
   meta: { name: string; framework: string; version: string };
@@ -15,112 +40,48 @@ export type LoadedRemote = {
   unmount: (container: HTMLElement) => Promise<any> | any;
 };
 
-/**
- * Returns the manifest entry for a given remote.
- */
 export function getRemoteEntry(remoteName: string): RemoteManifestEntry | null {
   const entry = manifest[remoteName];
-  if (!entry) {
-    console.warn(`[MF2] getRemoteEntry: Remote "${remoteName}" not found in manifest.`);
-    return null;
-  }
+  if (!entry) { console.warn(`[MF2] getRemoteEntry: Remote "${remoteName}" not found in manifest.`); return null; }
   return entry;
 }
 
-/**
- * Dynamically imports a remote’s remoteEntry.js module.
- */
 export async function loadRemote(remoteName: string): Promise<LoadedRemote | null> {
   const entry = getRemoteEntry(remoteName);
-  if (!entry) {
-    return null;
-  }
-
-  if (entry.status !== "available" || !entry.entry) {
-    console.warn(
-      `[MF2] loadRemote: Remote "${remoteName}" is not available (status="${entry.status}").`
-    );
-    return null;
-  }
-
+  if (!entry) return null;
+  if (entry.status !== "available" || !entry.entry) { console.warn(`[MF2] loadRemote: "${remoteName}" not available (status="${entry.status}").`); return null; }
   try {
-    const mod: any = await import(
-      /* @vite-ignore */
-      entry.entry
-    );
-
+    const mod: any = await import(/* @vite-ignore */ entry.entry);
     if (!mod || typeof mod.mount !== "function" || typeof mod.unmount !== "function") {
-      console.error(
-        `[MF2] loadRemote: Invalid module for "${remoteName}" at "${entry.entry}" (missing mount/unmount).`
-      );
-      return null;
+      console.error(`[MF2] loadRemote: Invalid module for "${remoteName}" at "${entry.entry}".`); return null;
     }
-
     return mod as LoadedRemote;
   } catch (err) {
-    console.error(
-      `[MF2] loadRemote: Failed to import remote "${remoteName}" from "${entry.entry}".`
-    );
-    console.error(err);
-    return null;
+    console.error(`[MF2] loadRemote: Failed to import "${remoteName}" from "${entry.entry}".`, err); return null;
   }
 }
 
-/**
- * Mounts a remote into the given DOM container.
- */
-export async function mountRemote(
-  remoteName: string,
-  container: HTMLElement,
-  props?: any
-): Promise<void> {
+export async function mountRemote(remoteName: string, container: HTMLElement, props?: any): Promise<void> {
   const mod = await loadRemote(remoteName);
-  if (!mod) {
-    console.warn(`[MF2] mountRemote: Remote "${remoteName}" could not be loaded.`);
-    return;
-  }
-
+  if (!mod) { console.warn(`[MF2] mountRemote: Remote "${remoteName}" could not be loaded.`); return; }
   await mod.mount(container, props);
 }
 
-/**
- * Unmounts a remote from the given DOM container.
- */
-export async function unmountRemote(
-  remoteName: string,
-  container: HTMLElement
-): Promise<void> {
+export async function unmountRemote(remoteName: string, container: HTMLElement): Promise<void> {
   const mod = await loadRemote(remoteName);
-  if (!mod) {
-    console.warn(
-      `[MF2] unmountRemote: Remote "${remoteName}" could not be loaded for unmount.`
-    );
-    return;
-  }
-
+  if (!mod) { console.warn(`[MF2] unmountRemote: Remote "${remoteName}" could not be loaded for unmount.`); return; }
   await mod.unmount(container);
 }
 
-/**
- * Returns a list of available remote names.
- */
 export function listAvailableRemotes(): string[] {
   return Object.entries(manifest)
-    .filter(([_, entry]) => entry.status === "available" && !!entry.entry)
+    .filter(([, entry]) => entry.status === "available" && !!entry.entry)
     .map(([name]) => name);
 }
 
-/**
- * Logs a concise summary of the manifest.
- */
 export function logManifestSummary(): void {
   const rows = Object.entries(manifest).map(([name, entry]) => ({
-    name,
-    framework: entry.framework,
-    version: entry.version,
-    status: entry.status,
-    entry: entry.entry,
+    name, framework: entry.framework, version: entry.version, status: entry.status, entry: entry.entry
   }));
-  // eslint-disable-next-line no-console
-  console.table(rows);
+  console.table(rows); // eslint-disable-line no-console
 }
