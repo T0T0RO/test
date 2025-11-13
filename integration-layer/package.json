@@ -9,9 +9,11 @@
     "../simple_vite_app"
   ],
   "scripts": {
+    "build:remotes": "node ./scripts/build-remotes.mjs",
     "gen:entries": "node ./scripts/generate-remote-entry.mjs",
     "gen:manifest": "node ./scripts/generate-remote-manifest.mjs",
     "refresh:all": "npm run gen:entries && npm run gen:manifest",
+    "refresh:all:build": "npm run build:remotes && npm run refresh:all",
     "predev:shell": "npm run refresh:all",
     "dev:shell": "cd shell && vite"
   },

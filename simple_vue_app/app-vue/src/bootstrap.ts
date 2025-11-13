@@ -1,48 +1,62 @@
-import { createApp, type App as VueApp } from "vue";
-import RootApp from "./App.vue";
+// simple_vue_app/app-vue/src/bootstrap.ts
+// MF2-specific bootstrap for Vue 3 remote.
+// IMPORTANT: do NOT import .vue SFCs here – esbuild (generate-remote-entry.mjs)
+// does not have a .vue loader. Keep this file pure TS/JS.
 
-let vm: VueApp | null = null;
+import { createApp, h } from "vue";
 
-export const meta = {
-  name: "app-vue",
-  framework: "vue",
-  version: "0.0.0"
-};
+let app: ReturnType<typeof createApp> | null = null;
+let hostRoot: HTMLElement | null = null;
 
-export async function bootstrap(container: HTMLElement, props?: any) {
-  if (!container) {
-    throw new Error("bootstrap: container is required");
+export async function bootstrap(container: HTMLElement) {
+  if (!container) throw new Error("[app-vue] bootstrap: container is required");
+
+  // If already mounted into this container, do nothing
+  if (hostRoot && hostRoot.parentElement === container && app) {
+    return;
   }
 
-  if (vm) {
-    // Already mounted; naive idempotence (could be improved if needed)
-    return vm;
-  }
+  // Create a wrapper inside the container – MF2 invariant: no global #app.
+  hostRoot = document.createElement("div");
+  container.appendChild(hostRoot);
 
-  const app = createApp(RootApp, props || {});
-  vm = app;
-  app.mount(container);
+  app = createApp({
+    name: "VueRemoteRoot",
+    setup() {
+      return () =>
+        h("div", { class: "mfe-card" }, [
+          h("h2", "Vue Remote: app-vue"),
+          h("p", "Hello from Vue remote MF2 mount."),
+        ]);
+    },
+  });
 
-  return vm;
+  app.mount(hostRoot);
+  console.info("[app-vue] mounted into MF2 host");
 }
 
 export async function teardown(container: HTMLElement) {
-  if (vm) {
-    try {
-      vm.unmount();
-    } catch {
-      // ignore
+  if (!container) return;
+
+  try {
+    if (app) {
+      app.unmount();
     }
-    vm = null;
+  } catch (e) {
+    console.warn("[app-vue] error during unmount", e);
   }
 
-  if (container) {
-    container.innerHTML = "";
+  if (hostRoot && container.contains(hostRoot)) {
+    try {
+      container.removeChild(hostRoot);
+    } catch {
+      /* ignore best-effort cleanup */
+    }
   }
+
+  app = null;
+  hostRoot = null;
+  console.info("[app-vue] unmounted from MF2 host");
 }
 
-export default {
-  meta,
-  bootstrap,
-  teardown
-};
+export default { bootstrap, teardown };

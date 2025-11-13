@@ -3,23 +3,42 @@
     {
       "name": "app-react",
       "framework": "react",
-      "version": "X",
       "root": "../simple_react_app/app-react",
-      "bootstrap": "src/bootstrap.tsx"
+      "bootstrap": "src/bootstrap.tsx",
+      "enabled": true,
+      "buildCommand": "npm run build"
     },
     {
       "name": "app1",
       "framework": "angular",
-      "version": "X",
       "root": "../simple_angular_app/app1",
-      "bootstrap": "src/bootstrap.ts"
+      "bootstrap": "src/bootstrap.ts",
+      "enabled": true,
+      "buildCommand": "npm run build:mf2"
     },
     {
       "name": "app2",
       "framework": "angular",
-      "version": "X",
       "root": "../simple_angular_app/app2",
-      "bootstrap": "src/bootstrap.ts"
+      "bootstrap": "src/bootstrap.ts",
+      "enabled": true,
+      "buildCommand": "npm run build:mf2"
+    },
+    {
+      "name": "app-vue",
+      "framework": "vue",
+      "root": "../simple_vue_app/app-vue",
+      "bootstrap": "src/bootstrap.ts",
+      "enabled": true,
+      "buildCommand": "npm run build"
+    },
+    {
+      "name": "app-vanilla",
+      "framework": "vanilla",
+      "root": "../simple_vite_app/app-vite-vanilla",
+      "bootstrap": "src/bootstrap.ts",
+      "enabled": true,
+      "buildCommand": "npm run build"
     }
   ]
 }
