@@ -14,7 +14,7 @@
     "gen:manifest": "node ./scripts/generate-remote-manifest.mjs",
     "refresh:all": "npm run gen:entries && npm run gen:manifest",
     "refresh:all:build": "npm run build:remotes && npm run refresh:all",
-    "predev:shell": "npm run refresh:all",
+    "dev:shell:full:bld": "npm run refresh:all:build && npm run dev:shell",
     "dev:shell": "cd shell && vite"
   },
   "devDependencies": {

@@ -25,6 +25,14 @@
       "buildCommand": "npm run build:mf2"
     },
     {
+      "name": "app3",
+      "framework": "angular",
+      "root": "../simple_angular_app/app3",
+      "bootstrap": "src/bootstrap.ts",
+      "enabled": true,
+      "buildCommand": "npm run build:mf2"
+    },
+    {
       "name": "app-vue",
       "framework": "vue",
       "root": "../simple_vue_app/app-vue",

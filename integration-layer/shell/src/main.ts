@@ -74,6 +74,7 @@ async function init() {
   wireButton("app-react", "btn-app-react", names);
   wireButton("app1", "btn-app1", names);
   wireButton("app2", "btn-app2", names);
+  wireButton("app3", "btn-app3", names);
   wireButton("app-vue", "btn-app-vue", names);
   wireButton("app-vanilla", "btn-app-vanilla", names);
 
