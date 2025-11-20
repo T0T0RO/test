@@ -2,7 +2,7 @@
 
 Multi-framework microfrontend platform using **MF2 (Micro Frontend Federation v2)** with:
 
-- Angular 20 (standalone)
+- Angular 18 and 20 (both standalone)
 - React
 - Vue
 - Vite Vanilla
