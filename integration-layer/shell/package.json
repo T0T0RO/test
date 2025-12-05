@@ -10,7 +10,7 @@
     "@angular/router": "18.2.0"
   },
   "devDependencies": {
-    "@nx/angular": "22.0.1",
+    "@nx/angular": "22.0.3",
     "@nx/vite": "22.0.1"
   }
 }
